@@ -1,0 +1,78 @@
+START
+
+FUNCTION MERGE(arr, l, m, r)
+    n1 ← m - l + 1
+    n2 ← r - m
+
+    Create arrays L[n1] and R[n2]
+
+    FOR i ← 0 to n1 - 1
+        L[i] ← arr[l + i]
+
+    FOR j ← 0 to n2 - 1
+        R[j] ← arr[m + 1 + j]
+
+    i ← 0
+    j ← 0
+    k ← l
+
+    WHILE i < n1 AND j < n2
+        IF L[i] ≤ R[j]
+            arr[k] ← L[i]
+            i ← i + 1
+        ELSE
+            arr[k] ← R[j]
+            j ← j + 1
+        ENDIF
+        k ← k + 1
+    ENDWHILE
+
+    WHILE i < n1
+        arr[k] ← L[i]
+        i ← i + 1
+        k ← k + 1
+    ENDWHILE
+
+    WHILE j < n2
+        arr[k] ← R[j]
+        j ← j + 1
+        k ← k + 1
+    ENDWHILE
+END FUNCTION
+
+
+FUNCTION MERGE_SORT(arr, l, r)
+    IF l < r
+        m ← l + (r - l) / 2
+
+        CALL MERGE_SORT(arr, l, m)
+        CALL MERGE_SORT(arr, m + 1, r)
+
+        CALL MERGE(arr, l, m, r)
+    ENDIF
+END FUNCTION
+
+
+MAIN PROGRAM
+    INPUT n
+
+    CREATE array arr of size n
+
+    FOR i ← 0 to n - 1
+        INPUT arr[i]
+
+    start_time ← current clock time
+
+    CALL MERGE_SORT(arr, 0, n - 1)
+
+    end_time ← current clock time
+
+    cpu_time ← (end_time - start_time) / CLOCKS_PER_SEC
+
+    PRINT "Sorted array"
+    FOR i ← 0 to n - 1
+        PRINT arr[i]
+
+    PRINT "Time taken =", cpu_time
+
+END
